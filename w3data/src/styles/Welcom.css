@@ -1,0 +1,84 @@
+body{
+    background-color:  #1e1e2f;
+    min-width: 1200px ;
+    margin: 0 auto;
+    color: white;
+}
+
+.welcome-container {
+    width: 100%;
+    height: 100vh; /* Adjust the height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .welcome-container-logo{
+width: 100%;
+height: 100px;
+background: #3358f4;
+    background: linear-gradient(0deg,#3358f4,#1d8cf8);
+    opacity: 0.2;
+  }
+  .welcome-container-otions, 
+  .login_form {
+    width: 400px;
+    height: 300px;
+    background-color: #27293d;
+    box-Shadow:1px 1px 20px 1px rgba(0,0,0,.9);
+    text-align: center;
+    align-items: center;
+    color: #9a9a9a;  
+    border:1px solid #2b3553;
+    border-radius: 0.4285rem;   
+    position: absolute;
+  }
+  .welcome-container-links{
+    margin: auto;
+    width: 250px;
+    height: auto;
+    margin-top: 50px;
+    
+  }
+  .login_form{
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  .login_form h1{
+    margin-top: 40px;
+  }
+
+  .login_form input{
+    width: 80%;
+    padding: 10px;
+    border: none; /* Remove default border */
+    border: 1px solid #2b3553; /* Add your custom border properties */
+    border-radius: 0.4285rem;
+    font-size: .75rem;
+    transition: color .3s ease-in-out, border-color .3s ease-in-out, background-color .3s ease-in-out;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+    background-color: #27293d;
+    margin-top: 20px;
+    color: #9a9a9a;
+    
+  }
+  .login_form button{
+    Background: #e14eca;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    background-color: #e14eca;
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+    padding: 11px 40px;
+    font-size: .875rem;
+    line-height: 1.35em;
+    display: inline-block;
+    font-weight: 600;
+    margin-top: 20px;
+  }

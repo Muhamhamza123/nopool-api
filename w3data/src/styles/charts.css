@@ -1,0 +1,97 @@
+.seperate_chart_section{
+position: relative;
+width: 450px;
+margin-left: 20px;
+align-items: center;
+margin-bottom: 20px;
+padding: 5px;
+background-color: #27293d;
+border-radius: 1rem;
+}
+
+.chart_bundle_view{
+    display: flex;
+    flex-direction: column;
+}
+.bundle_chart_section{
+margin-bottom: 20px;
+margin-top: 0;
+color: #9a9a9a;
+background-color: #27293d;
+border-radius: 1rem;
+padding: 13px;
+}
+
+.render_charts_main{
+width: 100%;
+display: flex;
+justify-content: center;
+animation: fadeIn 0.3s ease-in-out ;
+}
+
+
+  
+  
+.toggel_button_main_chart{
+    display: flex;
+    float:right;
+    margin-top: -40px;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 50px;
+    border-radius: 10px;
+  
+   
+  
+  }
+  .toggel_button_main_chart button{
+    background-color: #1e1e2f;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 14px;
+    padding-right: 14px;
+    
+  }
+  
+  
+  .toggel_button_seperate_chart {
+    display: flex;
+    float:right;
+    margin-top: -20px;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    position: absolute;
+    left: 25px;
+    top: 25px;
+  }
+  .toggel_button_seperate_chart button{
+    background-color: #27293d;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 15px;
+  }
+  button {
+    cursor: pointer;
+    text-align: center;
+    border-color: #1d8cf8;
+    color: #1d8cf8;
+    border-radius: 2px;
+    font-size: .75rem;
+    line-height: 1.35;
+    font-family: poppins,sans-serif;
+    border:0.5px solid #1d8cf8;
+  }
+  button:hover{
+    transform: translateY(-1px);
+    -webkit-transform: translateY(-1px);
+  }
+  button:active{
+    background: #1d8cf8;
+    background-image: linear-gradient(to bottom left,#1d8cf8,#3358f4,#1d8cf8);
+    color: #fff;
+    box-shadow: 2px 2px 6px rgba(0,0,0,.4);
+  }

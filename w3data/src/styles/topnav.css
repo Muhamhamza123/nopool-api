@@ -1,0 +1,83 @@
+/* topnav.css */
+
+
+
+
+
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;   
+    background-color:#1e1e2f;
+    border-top:  5px solid #3358f4;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0 0 45px 0 rgba(0,0,0,.2);
+   /* background-color: #27293d;*/
+    /* #1e1e2f;*/
+
+   
+  }
+
+  .logo img {
+    width: 50px;
+    height: auto;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+  
+  /* Style for the dropdown icon */
+  .dropdown-icon {
+    margin-left: 5px;
+    font-size: 1.2em;
+    color: #fff;
+  }
+  
+  /* Style for the dropdown menu */
+  .nav-dropdown-menu {
+    color: #fff;
+   
+  }
+  
+  .nav-dropdown-menu a {
+    color: #fff;
+    display: block; /* Set the links to display as blocks to occupy full width */
+    padding: 10px; /* Add padding to links for better spacing */
+    text-decoration: none; /* Remove underline from links */
+   
+  }
+  
+  .nav-dropdown-menu a:hover {
+    background-color: #2980b9;
+  }
+  
+  .dropdown-container {
+    display: flex;
+    flex-direction: column; /* Display items in a column */
+  }
+  
+  /* Style for the dropdown items */
+  .dropdown-item {
+    margin-bottom: 5px; /* Add margin between dropdown items for better spacing */
+  }
+.logo a {
+    font-size: 1rem;
+    font-family: poppins,sans-serif;
+    text-transform: uppercase;
+    color: #fff;
+  }

@@ -1,0 +1,21 @@
+.footer {
+    background-color: #27293d;
+    color: #9a9a9a;
+    padding: 5px;
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-section-list {
+   display: flex;
+  }
+  
+  /* Add additional styles as needed */
+  

@@ -1,0 +1,134 @@
+.MeasurementProjectsDetails-container{
+    width: 90%;
+    height: fit-content;   
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;    
+    color: #9a9a9a;
+    justify-content: center;
+  
+    margin-inline: auto;
+    margin-left: 10%;
+
+    
+    
+}
+.project_selection{
+    width: 80%;
+    background-color:#27293d;
+    height: fit-content;
+    display: flex;  
+    padding: 10px 10px 40px 10px;
+    box-Shadow:1px 1px 20px 1px rgba(0,0,0,.3);
+    margin-top: 20px;
+    border-radius: 0.3rem;  
+    margin-inline: auto;
+    float: right;
+    justify-content: center;
+   
+  
+   
+}
+.project_selection select{
+    width: 86%;
+    padding: 10px;
+    border-color: #2b3553;
+    border-radius: 0.4285rem;
+    font-size: .75rem;
+    transition: color .3s ease-in-out,border-color .3s ease-in-out,background-color .3s ease-in-out;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+     background-color: #27293d;
+     box-Shadow:1px 1px 20px 1px rgba(0,0,0,.2);
+     color: #9a9a9a;   
+}
+.project_selection option{
+    color: #9a9a9a;   
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-top: 10px;
+    font-family: poppins,sans-serif;
+}
+.project_selection option:first-child
+{
+    color: #9a9a9a;   
+    font-size: .75rem;
+    font-weight: 400;
+}
+.metadata_section,
+.chart_section{
+
+width: 80%;
+margin-inline: auto;
+height: fit-content;
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+background-color: #27293d;
+padding: 10px;
+margin-top: 20px;
+border-radius: 0.3rem;
+box-Shadow:1px 1px 20px 1px rgba(0,0,0,.3);
+
+float: right;
+}
+
+
+.toggel_button{
+    background-color: #1d8cf8;
+    margin-top: 21px;   
+    margin-left: 20px;
+   
+    border:0.5px solid #1d8cf8;
+    height: 41px;    
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+    padding: 11px 40px;   
+    font-weight: 600;
+    box-shadow: 2px 2px 6px rgba(0,0,0,.4);
+    
+}
+.project_description_section{
+    margin-top: 20px;
+    width: 80%;
+    height: 300px;
+    padding: 10px;
+    border: 1px solid #2b3553;
+    border-radius: 0.4285rem;
+    font-size: .75rem;
+    transition: color .3s ease-in-out,border-color .3s ease-in-out,background-color .3s ease-in-out;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+     background-color: #27293d;
+     box-Shadow:1px 1px 20px 1px rgba(0,0,0,.2);
+
+}
+
+
+.metadata-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    
+  }
+  
+  .metadata-item {
+    width: 50%; /* Two items per row */
+    padding: 10px;
+    box-sizing: border-box;
+    flex-direction: column;
+  }
+  .metadata-container p{
+   padding: 5px;
+    font-family: poppins,sans-serif;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+  }
+  

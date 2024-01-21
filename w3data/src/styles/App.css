@@ -1,0 +1,37 @@
+body{
+  background-color:#1e1e2f;
+  max-width: 1900px;
+  
+}
+.app-container{
+    background-color:#1e1e2f;
+    width: 100%;
+    margin-inline:auto ;
+
+
+}
+  
+  .content-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+   
+  }
+  
+
+
+.user-projects {
+    float: left; /* Float the user-projects to the left */
+    width: 50%;   /* Adjust the width as needed */
+  }
+  
+  .table-view {
+    float: right; /* Float the table-view to the right */
+    width: 50%;   /* Adjust the width as needed */
+  }
+  
+  /* You can further style these elements based on your design requirements */
+
+
+  
+  

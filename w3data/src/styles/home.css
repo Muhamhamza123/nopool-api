@@ -1,0 +1,220 @@
+body{
+  background-color:#1e1e2f;
+  max-width: 1900px;
+  
+}
+.close{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  
+  font-size: 15px;
+  background: none;
+  border: none;
+  opacity: 0.5;
+}
+.close:hover{
+  font-size: 20px;
+  opacity: 1;
+  transition: 0.5s;
+  font-weight: bolder;
+}
+.popup-save-changes{
+  Background: #e14eca;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    background-color: #e14eca;
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+    padding: 11px 40px;
+    font-size: .875rem;
+    line-height: 1.35em;
+    display: inline-block;
+    font-weight: 600;
+    
+}
+.edit-content {
+  background-color:#1e1e2f;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-content h2 {
+    margin-top: 0;
+  }
+  
+  .edit-content input {
+    width: 90%;
+    padding: 10px;
+    border: none; /* Remove default border */
+    border: 1px solid #2b3553; /* Add your custom border properties */
+    border-radius: 0.4285rem;
+    font-size: .75rem;
+    transition: color .3s ease-in-out, border-color .3s ease-in-out, background-color .3s ease-in-out;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+    background-color: #27293d;
+    color: #9a9a9a;
+    
+    margin-inline: auto;
+  }
+  
+  .edit-content button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  
+  .project-details{
+  width: 1200px;
+  height: auto;
+  background-color: #007bff;
+  display: flex;
+  flex-direction: row;
+  }
+  
+  
+  .edit_home{
+  
+    background: none;
+    border: none;    
+  
+  }
+  
+  
+  .influxdata_table_home{
+  width: 42%;
+  height: 500px;
+  background-color:#27293d ;
+  padding: 20px;
+  overflow-x: auto;
+  overflow-y: auto;
+  border-radius:1rem;
+  }
+  
+  
+  
+  .influxdata_table_home::-webkit-scrollbar{
+    width: 12px;
+  }
+  
+  
+  
+  .influxdata_table_home::-webkit-scrollbar-thumb {
+    background-color: #9a9a9a;
+    border-radius: 10px;
+  }
+  .influxdata_table_home::-webkit-scrollbar-track {
+    background-color: #1e1e2f;
+  }
+  
+  
+  
+  
+  
+  
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+
+  .home_main_container{
+    width: 100%;
+    display: flex;    
+    align-items: center;
+    animation: fadeIn 0.3s ease-in-out;
+    justify-content: center;
+    align-content: center;
+
+    }
+  .side-bar-navigation{
+  width: 12%;
+    }
+    .main-container-body{
+    width: 88%;
+    
+    height: fit-content;
+    margin-inline: auto;
+    justify-content: center;
+    color: #9a9a9a;
+  
+    animation: fadeIn 0.5s ease-in-out;
+    }
+    .chart_view_section{
+      width: 95%;
+      margin-inline: 2.5%;
+     
+    
+    }
+    .table_section{
+    
+    display: flex;
+    
+    margin-top: 20px;
+   
+    }
+    
+    
+    .loader_design{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100%;
+       
+    }
+    .table_section_body{
+    width: 42%;
+    height: auto;
+    background-color: #27293d;
+    padding: 20px;
+    margin-inline:3%;
+    color: #9a9a9a;
+    border-radius: 1rem;
+    }
+    
+    .loader_design p{
+      color:#9a9a9a;
+      opacity:0.6;
+    }
+    
+    
+    
+    .data-table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      .data-table th, .data-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      
+    
+      
+    
+      
+     
+      

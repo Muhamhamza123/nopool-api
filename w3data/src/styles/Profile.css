@@ -1,0 +1,136 @@
+
+.Edit_profile_form{
+    width:60%;    
+    height:auto;    
+    background-color: #27293d;
+    box-Shadow:1px 1px 20px 1px rgba(0,0,0,.9);
+    background-clip: padding-box;
+    font-weight: 400;
+    line-height: 1.42857;
+    border-radius: 1%;
+    padding: 1%;
+
+}
+.Profile_pic {
+    width: 30%;
+    height: auto;
+    background: linear-gradient(90deg, rgba(225, 78, 202, 0.6) 0, rgba(225, 78, 202, 0) 25%, rgba(225, 78, 202, 0) 75%, rgba(225, 78, 202, 0.6) 100%) 0 0 / 100% 35% no-repeat;
+    box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.9);
+    background-clip: padding-box;
+    font-weight: 400;
+    line-height: 1.42857;
+    border-radius: 1%;
+    padding: 1%;
+    margin-inline: auto;
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+  }
+  
+  .Profile_pic:hover {
+    background: linear-gradient(90deg, rgba(225, 78, 202, 0.6) 0, rgba(225, 78, 202, 0.2) 25%, rgba(225, 78, 202, 0.6) 100%) 0 0 / 100% 25% no-repeat;
+  }
+  
+
+.Profile_pic img{
+    width: 200px;
+    height: 200px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    border-radius: 50%;
+}
+
+
+
+
+
+.profile-form {
+    width: 100%;
+    margin: auto;
+
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .profile-form input{
+    width: 80%;
+    padding: 10px;
+    border: none; /* Remove default border */
+    border: 1px solid #2b3553; /* Add your custom border properties */
+    border-radius: 0.4285rem;
+    font-size: .75rem;
+    transition: color .3s ease-in-out, border-color .3s ease-in-out, background-color .3s ease-in-out;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+    background-color: #27293d;
+    color: #9a9a9a;   
+  }
+  .profile-form button{
+    Background: #e14eca;
+    background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    background-color: #e14eca;
+    transition: all .15s ease;
+    box-shadow: none;
+    color: #fff;
+    padding: 11px 40px;
+    font-size: .875rem;
+    line-height: 1.35em;
+    display: inline-block;
+    font-weight: 600;
+  }
+  .profile-form textarea{
+    width: 90%;
+    height: 100px;
+    margin-left: 15px;
+    border-color: #2b3553;
+    border-radius: 0.4285rem;
+    font-size: .75rem;
+    transition: color .3s ease-in-out,border-color .3s ease-in-out,background-color .3s ease-in-out;
+    font-weight: 400;
+    line-height: 1.42857;
+    background-color: #27293d;
+    font-family: poppins,sans-serif;
+    color: #9a9a9a;   
+
+}
+.profile-form label {
+    color: #9a9a9a;   
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-top: 10px;
+    font-family: poppins,sans-serif;
+}
+.Profile_pic p {
+  color: #9a9a9a; 
+  font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.42857;
+    font-family: poppins,sans-serif;
+}
+
+.User_Address{
+    width: 100%;
+}
+  
+  .col {
+    flex: 1;
+    margin-right: 10px;
+    
+
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  textarea {
+    height: 100px; /* Adjust as needed */
+  }
+  

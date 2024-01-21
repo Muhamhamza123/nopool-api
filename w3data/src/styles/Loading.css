@@ -1,0 +1,178 @@
+
+
+
+.loading-container {
+  width: 100%;
+    height: 100vh; /* Adjust the height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.welcome-container-logo{
+  width: 100%;
+  height: 100px;
+  background: #3358f4;
+      background: linear-gradient(0deg,#3358f4,#1d8cf8);
+      opacity: 0.2;
+    }
+
+.background-text {
+  font-size: 100px;
+  font-weight: 600;
+  opacity: 0.9;
+  font-style: italic;
+  color: #3f51b5;
+}
+
+.loading-spinner {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+}
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border: 8px solid #3498db;
+  border-top: 8px solid #e74c3c;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  text-align: center;
+  position: absolute;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+
+/* In your CSS file */
+.table-container {  
+  width: 900px; /* Set a fixed width */
+  height: 400px; /* Set a fixed height */
+  color: #9a9a9a;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #27293d;  
+}
+th, td {
+ /* Set border-top for horizontal lines at the top of each row */
+  border-bottom: 0.5px solid rgba(153, 153, 153, 0.1);
+  text-align: left;
+  padding: 8px;
+  
+}
+
+
+th {
+  border-bottom: 0.5px solid rgba(153, 153, 153, 0.1); /* Set border-bottom for th to create a line under the header row */
+  background-color: #27293d;
+}
+
+td:first-child, th:first-child {
+  border-left: none; /* Remove the left border for the first column */
+}
+
+td:last-child, th:last-child {
+  border-right: none; /* Remove the right border for the last column */
+}
+
+
+
+
+
+
+
+/* Add additional CSS styles as needed */
+
+.chart-type-button {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.chart-type-button.selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+
+
+
+
+/* styles.css */
+
+/* Add fixed width and set a maximum height for the main container */
+
+
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  height: auto;
+  
+}
+.chart-container {
+  background-color: lightblue; /* Change this to your desired background color */
+  padding: 10px; /* Optional padding for spacing around the container */
+}
+
+.chart-wrapper {
+  width: calc(50% - 10px); /* 10px margin between charts */
+  margin-bottom: 20px; /* Adjust as needed */
+  background-color: lightblue;
+}
+
+/* Add additional styles as desired */
+
+.chart-div {
+  margin-left: 10px; /* Adjust the margin as needed */
+  overflow-x: auto;
+  width: 500px;
+  height: auto;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Add these CSS styles to your stylesheet */
+.edit-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
