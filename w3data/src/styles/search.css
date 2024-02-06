@@ -1,5 +1,5 @@
 .search_main_container{
-width: 80%;
+width: 100%;
 height: fit-content;
 margin: auto;
 display: flex;
@@ -14,7 +14,7 @@ padding: 20px;
 
 .seacrh_metadata-container  
 {
-width: 80%;
+width: 100%;
 height: fit-content;
 margin-inline: auto;
 background-color: #27293d;
@@ -27,13 +27,13 @@ border-radius: 0.5rem;
 }
 
 .seacrh_influxdb_container{
-  width: 80%;
+  width: 100%;
   min-height: fit-content;
-  max-height: 500px;
+  max-height: 800px;
   margin-inline: auto;
   background-color: #27293d;
   margin-top: 50px;
-  padding: 20px;
+padding: 0px 20px 20px 20px;
   color: #9a9a9a;
   font-family: poppins,sans-serif;
   box-Shadow:1px 1px 20px 1px rgba(0,0,0,.3);
@@ -303,19 +303,32 @@ padding: 20px;
   align-self: flex-start;
 }
 .metadata_download, .data_download {
-  Background: #e14eca;
-  background-image: linear-gradient(to bottom left,#e14eca,#ba54f5,#e14eca);
-  background-size: 210% 210%;
-  background-position: 100% 0;
-  background-color: #e14eca;
-  transition: all .15s ease;
-  box-shadow: none;
-  color: #fff;
+
+  
+ 
+  background-color: #27293d;
+  transition: all .15s ease;  
+  color: #3358f4;
   padding: 11px 40px;
   font-size: .875rem;
   line-height: 1.35em;
   display: inline-block;
   font-weight: 600;
   margin-top: 20px;
+  opacity: 0.7;
+}
 
+
+.results-dsection-header{
+width: 100%;
+height: 100px; 
+display: flex;
+justify-content: space-between;
+position: sticky;
+top: 0;
+}
+
+.data-table th{
+position: sticky;
+top: 0;
 }

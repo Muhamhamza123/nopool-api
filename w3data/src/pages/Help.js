@@ -12,7 +12,7 @@ const HelpComponent = () => {
       </p>
       <ul>
         <li>The CSV file should have a header row with column names.</li>
-        <li>The file must contain either "Date" and "Time" columns or a "timestamp" column.</li>
+        <li>The file must contain either "Date" and "Time" columns or a "timestamp" column or a Date column.</li>
         <li>If using "Date" and "Time" columns, the date and time values should be in the format "YYYY-MM-DD" and "HH:MM:SS" respectively.</li>
         <li>If using a "timestamp" column, ensure the timestamp format is either "YYYY-MM-DD HH:MM:SS" or "YYYY-MM-DD HH:MM:SS.ssssss".</li>
 

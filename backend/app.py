@@ -12,6 +12,7 @@ from flask_cors import CORS
 import mysql.connector
 from mysql.connector import pooling
 import jwt
+import re
 from datetime import datetime, timedelta
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from mysql.connector import Error
@@ -25,7 +26,6 @@ from mysql.connector import connect, Error
 
 
 
-
 app = Flask(__name__, static_folder='../w3data/build', static_url_path='/')
 @app.route('/')
 def index():
@@ -33,7 +33,6 @@ def index():
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
-
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 CORS(app, supports_credentials=True)
@@ -70,10 +69,16 @@ jwt = JWTManager(app)
 ####################################################################
 # Infludb configuration
 ####################################################################
+
+
+
+
 influxdb_url = 'http://128.214.252.242:8086'
 influxdb_token = 'o2QrMfzLqs75ACyqBnXK1X7lM5Hswy6L5OeaSUZcIoZbFAlngzxNIvRZOyj3ap0Z6dxQb7Y-sIVtmpx-P1LkdA=='
 influxdb_org = 'w3data'
-influxdb_bucket = "WE3DATA"  
+influxdb_bucket = "WE3DATA" 
+
+
 
 #gittokken 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
 # InfluxDB connection pooling configuration
@@ -444,7 +449,7 @@ def get_fields():
 
 # Route to fetch InfluxDB data with a measurement name
 @app.route('/influxdb-data-home/<username>', methods=['GET'])
-@cache.cached(timeout=60) 
+@cache.cached(timeout=30) 
 def get_influxdb_data_home(username):
       # Get the measurement name from the query parameter    
     # Print the selected measurement name
@@ -649,8 +654,8 @@ def parse_row(row):
     except ValueError:
         print(f"Failed to parse timestamp: {timestamp_str}")
         return None
+    
 
-# Route for handling file uploads
 @app.route('/upload', methods=['POST'])
 def upload_data():
     if 'file' not in request.files:
@@ -661,27 +666,55 @@ def upload_data():
     if file.filename == '':
         return jsonify({'message': 'No selected file'})
 
+    # Extract metadata from form
     data_creator = request.form['dataCreator']
     project_name = request.form['projectName']
     location = request.form['location']
     date_generated = request.form['dateGenerated']
     selected_measurement = request.form['selectedMeasurement']
 
+    # Submit metadata first
+    metadata_result = submit_metadata(request.form, project_name, location, selected_measurement)
+    if not metadata_result:
+        # Handle failure in metadata submission
+        return jsonify({'message': 'Metadata submission failed'})
+
+    # Process CSV file
     if file:
         file.save(file.filename)
-        process_result = process_csv(file.filename, data_creator, project_name, location, date_generated, selected_measurement)
+    process_result = process_csv(file.filename, data_creator, project_name, location, date_generated, selected_measurement)
+    if not process_result['success']:
+        # Handle failure in CSV processing
+        # Call the delete function to remove metadata associated with the failed upload
+        delete_most_recent_metadata (project_name, data_creator)
+        return jsonify({'message': f'CSV processing failed: {process_result["error"]}'})
+    
+    return jsonify({'message': 'Data uploaded successfully'})
 
-        # Check if the CSV processing was successful
-        if process_result['success']:
-            print(f"Inserting data into MySQL for project: {project_name}")
-            result = submit_metadata(request.form, project_name, location, selected_measurement)  # Pass project_name to the function
-            print(f"submit_metadata result: {result}")
-            if result:
-                return result
-            return jsonify({'message': 'Data uploaded successfully'})
-        else:
-            return jsonify({'message': f'CSV processing failed: {process_result["error"]}'})
-    return jsonify({'message': 'File upload failed'})
+
+
+def delete_most_recent_metadata(project_name, data_creator):
+    try:
+        # Fetch the project_id based on project_name
+        with get_mysql_cursor() as cursor:
+            cursor.execute("SELECT project_id FROM projects WHERE project_name = %s", (project_name,))
+            project_id = cursor.fetchone()[0]
+
+            # Fetch the most recent version for the project
+            cursor.execute("SELECT version FROM project_metadata WHERE data_creator = %s AND project_id = %s ORDER BY CAST(SUBSTRING_INDEX(version, 'version', -1) AS UNSIGNED) DESC LIMIT 1", (data_creator, project_id))
+            latest_version = cursor.fetchone()[0]
+
+            # Delete the entry with the most recent version from project_metadata where data_creator and project_id match
+            cursor.execute("DELETE FROM project_metadata WHERE data_creator = %s AND project_id = %s AND version = %s", (data_creator, project_id, latest_version))
+
+        print("Most recent metadata deleted successfully.")
+    except Exception as e:
+        print(f"Failed to delete most recent metadata. Error: {e}")
+        # Optionally, you can handle the error here (e.g., log it, raise it again)
+
+
+
+
 
 def process_csv(file_path, data_creator, project_name, location, date_generated, selected_measurement):
     data_points = []  # List to collect data points before writing in chunks
@@ -911,10 +944,11 @@ def write_data_points(data_points):
         # Write the data points in chunks using InfluxDB Write API
         result = write_api.write(bucket=influxdb_bucket, org=influxdb_org, record=data_points)
         print(f"Data points written successfully: {len(data_points)}")
+        return {'success': True}
     except Exception as e:
         print(f"Failed to write data points. Error: {e}")
-        # Roll back MySQL transaction
-        mysql_pool.rollback()
+        return {'success': False, 'error': str(e)}
+
 
 from flask import jsonify  # Assuming you are using Flask for JSON responses
 ######################################################################################################
@@ -939,6 +973,8 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
     sampling_method = form_data['samplingMethod']
     related_publication = form_data['relatedPublication']
     additional_notes = form_data['additionalNotes']
+    data_creator = form_data['dataCreator']
+    coordinatesFormat= form_data['coordinatesFormat']
 
     print(project_name)
 
@@ -952,9 +988,10 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                 project_id = project_result[0]
 
                 get_latest_version_query = '''
-                    SELECT version FROM project_metadata
+                     SELECT version FROM project_metadata
                     WHERE project_id = %s
-                    ORDER BY version DESC LIMIT 1
+                    ORDER BY CAST(SUBSTRING_INDEX(version, 'version', -1) AS UNSIGNED) DESC LIMIT 1
+                
                 '''
 
                 cursor.execute(get_latest_version_query, (project_id,))
@@ -969,8 +1006,8 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                     insert_query = '''
                         INSERT INTO project_metadata (project_id,  abstract, data_owner, contact_email, orcid_id, 
                             other_contributors, funding_information, data_license, latitude, longitude, time_zone, unit_of_measurement,
-                            sensor_make_and_type, sensor_accuracy, sampling_method, related_publication, additional_notes, version)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            sensor_make_and_type, sensor_accuracy, sampling_method, related_publication, additional_notes, version,data_Creator,coordinates)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
                     '''
 
                     data_values = (
@@ -978,7 +1015,7 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                         other_contributors, funding_information, data_license,
                         latitude, longitude, time_zone, unit_of_measurement,
                         sensor_make_and_type, sensor_accuracy, sampling_method,
-                        related_publication, additional_notes, new_version
+                        related_publication, additional_notes, new_version,data_creator,coordinatesFormat
                     )
 
                     cursor.execute(insert_query, data_values)
@@ -993,8 +1030,8 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                     insert_query = '''
                         INSERT INTO project_metadata (project_id,  abstract, data_owner, contact_email, orcid_id, 
                             other_contributors, funding_information, data_license, latitude, longitude, time_zone, unit_of_measurement,
-                            sensor_make_and_type, sensor_accuracy, sampling_method, related_publication, additional_notes, version)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            sensor_make_and_type, sensor_accuracy, sampling_method, related_publication, additional_notes, version, data_Creator,coordinates)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)
                     '''
 
                     data_values = (
@@ -1002,7 +1039,7 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                         other_contributors, funding_information, data_license,
                         latitude, longitude, time_zone, unit_of_measurement,
                         sensor_make_and_type, sensor_accuracy, sampling_method,
-                        related_publication, additional_notes, new_version
+                        related_publication, additional_notes, new_version, data_creator,coordinatesFormat
                     )
 
                     cursor.execute(insert_query, data_values)
@@ -1027,8 +1064,8 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                     insert_query = '''
                         INSERT INTO project_metadata (project_id,  abstract, data_owner, contact_email, orcid_id, 
                             other_contributors, funding_information, data_license, latitude, longitude, time_zone, unit_of_measurement,
-                            sensor_make_and_type, sensor_accuracy, sampling_method, related_publication, additional_notes, version)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            sensor_make_and_type, sensor_accuracy, sampling_method, related_publication, additional_notes, version,data_Creator,coordinates)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s.%s )
                     '''
 
                     data_values = (
@@ -1036,7 +1073,7 @@ def submit_metadata(form_data, project_name, location, selected_measurement):
                         other_contributors, funding_information, data_license,
                         latitude, longitude, time_zone, unit_of_measurement,
                         sensor_make_and_type, sensor_accuracy, sampling_method,
-                        related_publication, additional_notes, new_version
+                        related_publication, additional_notes, new_version, data_creator,coordinatesFormat
                     )
 
                     cursor.execute(insert_query, data_values)
@@ -1090,7 +1127,7 @@ def generate_version(location, longitude, latitude, measurement_name, version):
 client = InfluxDBClient(url=influxdb_url, token=influxdb_token, org=influxdb_org)
 query_api = client.query_api()
 
-
+from influxdb.exceptions import InfluxDBClientError, InfluxDBServerError
 
 @app.route('/search', methods=['POST'])
 def search():
@@ -1098,17 +1135,18 @@ def search():
         data = request.get_json()
 
         selected_measurement = data.get('selectedMeasurement')
-        selected_fields = data.get('selectedFields')
         start_time_str = data.get('startDate')
+        selected_fields = data.get('selectedFields')
         stop_time_str = data.get('endDate')
         data_creator = data.get('dataCreator')
-        location = data.get('data_Location')  # Added location parameter
         project_name = data.get('ProjectName')
-       
+        search_value = data.get('searchValue')  # Added search value parameter
+        location = data.get('data_Location')  # Added location parameter
         print(f"Received Data Creator: {data_creator}")
         print(f"Received location: {location}")
-        print(f"Received location: {project_name}")
-
+        print(f"Received project: {project_name}")
+        
+        
         # Convert start_time and stop_time to RFC3339 format
         try:
             start_time = datetime.strptime(start_time_str, '%Y-%m-%d %H:%M:%S').isoformat() + 'Z'
@@ -1120,7 +1158,7 @@ def search():
 
         query_api = client.query_api()
 
-        # Construct the InfluxDB query
+        # Construct the InfluxDB query to retrieve all fields for the selected measurement
         query = f'''
         from(bucket: "{influxdb_bucket}")
              |> range(start: {start_time}, stop: {stop_time})
@@ -1138,7 +1176,13 @@ def search():
         if location:
             query += f'|> filter(fn: (r) => r["location"] == "{location}")'
         if project_name:
-            query += f'|> filter(fn: (r) => r["project_name"] == "{project_name}")'     
+            query += f'|> filter(fn: (r) => r["project_name"] == "{project_name}")'
+        if search_value:  # Add filter for search value
+            query += f'|> filter(fn: (r) => r["_value"] == "{search_value}")'     
+        # Pivot the data directly in the query
+        query += '''
+        |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+         '''    
 
         print(f"InfluxDB Query: {query}")
 
@@ -1160,23 +1204,26 @@ def search():
         data_list = []
         for table in result:
             for record in table.records:
-                data_list.append({
-                    'Time': record.get_time().strftime('%Y-%m-%d %H:%M:%S'),
-                    'Measurement': record.get_measurement(),
-                    'Field': record.get_field(),
-                    'Value': record.get_value(),
-                })
+                time_str = record.get_time().strftime('%Y-%m-%d %H:%M:%S')
+                measurement = record.get_measurement()
+                fields_values = record.values
+
+        # Include 'Time', 'Measurement', and all fields dynamically
+                data_entry = {'Time': time_str, 'Measurement': measurement}
+                data_entry.update(fields_values)
+                data_list.append(data_entry)
 
         try:
             df = DataFrame(data_list)
             df = df.drop_duplicates()  # Drop duplicate rows
-            df_pivot = df.pivot(index='Time', columns='Field', values='Value').reset_index()
+           
         except Exception as e:
             print(f'Error converting data to DataFrame: {str(e)}')
             return jsonify({'error': f'Error converting data to DataFrame: {str(e)}'}), 500
 
         # Convert the pivoted DataFrame to JSON
-        json_data = df_pivot.to_json(orient='records')
+        json_data = df.to_json(orient='records')
+        print(json_data)
 
         return json_data
 
@@ -1184,13 +1231,6 @@ def search():
         print(f'An unexpected error occurred: {str(e)}')
         return jsonify({'error': f'An unexpected error occurred: {str(e)}'}), 500
     
-
-
-
-
-
-
-
 
 
 

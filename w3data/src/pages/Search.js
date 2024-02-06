@@ -28,6 +28,7 @@ function Search() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
   const [selectedVersion, setSelectedVersion] = useState("");   
+  const [searchValue, setSearchValue] = useState(''); // New state for search value
 
 // Check for the presence of the token on component mount
 useEffect(() => {
@@ -91,7 +92,16 @@ const handleMetadata = () => {
       return;
     }
     searchData(
-      selectedMeasurement,selectedFields,projectName,location,dataCreator,startDate,endDate,setSearchResults,toast
+      selectedMeasurement,
+      selectedFields,
+      projectName,
+      location,
+      dataCreator,
+      searchValue, // Include searchValue in the searchData function call
+      startDate,
+      endDate,
+      setSearchResults,
+      toast
     );
   };
   const handleDelete = () => {
@@ -190,6 +200,14 @@ const handleMetadata = () => {
         dateFormat="yyyy-MM-dd HH:mm:ss"
         required
       />
+       <label>Search Value:</label>
+            <input
+              className='searc_data_input'
+              type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)} // Set the search value state
+              placeholder="Enter Search Value"
+            />
     <label>Data Creator :</label>
       <input
       className='searc_data_input'
@@ -232,9 +250,17 @@ const handleMetadata = () => {
           </div>
         ))}
       </div>
+     
+     
+     
+     
+     
       <div className='seacrh_influxdb_container'>
-        <h1>InfluxDB Data</h1>
-        <DataDownload searchResults={searchResults}/>
+        <div className='results-dsection-header'> 
+        <h1 >InfluxDB Data</h1>  
+         <DataDownload searchResults={searchResults}/>
+        </div>
+        
         <table  className="data-table">
           <thead>
             <tr>           
@@ -254,9 +280,10 @@ const handleMetadata = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
-    </div>
+   
     )}
     </div>
     

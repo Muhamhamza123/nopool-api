@@ -15,43 +15,65 @@ export const fetchFields = (measurementName, setFields) => {
     .then(response => setFields(response.data))
     .catch(error => console.error('Error fetching fields:', error));
 };
+
+
+
 export const searchData = async (
   selectedMeasurement,
   fieldNames,
   project_name,
   data_location,
-  user_project_name,
+  dataCreator,
+  searchValue,
   startDate,
   endDate,
   setSearchResults,
   toast
 ) => {
   try {
+    const formattedStartDate = startDate ? startDate.toISOString().slice(0, 19).replace('T', ' ') : null;
+    const formattedEndDate = endDate ? endDate.toISOString().slice(0, 19).replace('T', ' ') : null;
+
     const response = await axios.post('/search', {
       selectedMeasurement,
       selectedFields: fieldNames,
       ProjectName: project_name,
       data_Location: data_location,
-      userProjectName: user_project_name,
-      startDate: startDate ? startDate.toISOString().slice(0, 19).replace('T', ' ') : null,
-      endDate: endDate ? endDate.toISOString().slice(0, 19).replace('T', ' ') : null,
+      dataCreator,
+      searchValue,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
     });
+    console.log('Search Response:', response);
 
-    // Handle successful response
-    setSearchResults(response.data);
-    toast.success('Search successful!',{ className: 'success-toast' });
+    if (response.status === 200) {
+      if (response.data.length === 0) {
+        // If no matching results found, set searchResults to an empty array
+        setSearchResults([]);
+        toast.warn('No data found. Please refine your search criteria.', { className: 'warning-toast' });
+      } else {
+        // Handle successful response
+        setSearchResults(response.data);
+        toast.success('Search successful!', { className: 'success-toast' });
+      }
+    } else {
+      // Handle non-200 response (error from server)
+      setSearchResults([]);
+      toast.error('Error during search. Please try again.', { className: 'error-toast' });
+    }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      // Handle 404 error (No data found)
       console.error('Backend Error:', error.response.data.error);
+      setSearchResults([]);
       toast.error('No data found. Please refine your search criteria.', { className: 'error-toast' });
     } else {
-      // Handle network errors or other issues
       console.error('Error searching:', error);
-      toast.error('Error during search. Please try again.',{ className: 'error-toast' });
+      setSearchResults([]);
+      toast.error('Error during search. Please try again.', { className: 'error-toast' });
     }
   }
 };
+
 
 
 

@@ -1,3 +1,14 @@
+influxdb_url = 'http://localhost:8086'
+influxdb_token = 'MEG9bPAWuQ792RII5bamL219WQV9BLcKCVFdwah-LxB5jXBFnECXyHg9rv6Q1nfEj1mKaqCj8Ng-WDFaCesabw=='
+influxdb_org = 'hamza'
+influxdb_bucket = "WE3DATA" 
+
+
+
+
+
+
+
 # Import necessary libraries
 import csv
 from influxdb_client.client.write_api import WriteOptions, WritePrecision
